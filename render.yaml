@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mern-app
+    env: node
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: chmod +x start.sh && ./start.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_PATH
+        value: /opt/render/project/src/server/node_modules 
