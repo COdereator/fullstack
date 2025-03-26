@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import API_URL from '../config/api';
 
 const ProductContext = createContext(null);
 
@@ -11,7 +12,7 @@ export const ProductProvider = ({ children }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/products');
+      const response = await fetch(`${API_URL}/products`);
       const data = await response.json();
       if (data.success) {
         setProducts(data.products);
@@ -37,7 +38,7 @@ export const ProductProvider = ({ children }) => {
       }
 
       // Split request into smaller chunks if needed
-      const response = await fetch('http://localhost:5000/api/products', {
+      const response = await fetch(`${API_URL}/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ export const ProductProvider = ({ children }) => {
 
   const getProduct = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`);
+      const response = await fetch(`${API_URL}/products/${id}`);
       const data = await response.json();
       if (data.success) {
         // Ensure price exists and is a number

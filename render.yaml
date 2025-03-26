@@ -8,4 +8,6 @@ services:
       - key: NODE_ENV
         value: production
       - key: NODE_PATH
-        value: /opt/render/project/src/server/node_modules 
+        value: /opt/render/project/src/server/node_modules
+      - key: PORT
+        value: 10000 

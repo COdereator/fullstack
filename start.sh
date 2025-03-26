@@ -3,6 +3,11 @@ set -e
 
 echo "Starting server..."
 
+# Copy client build to server's public directory
+echo "Copying client build to server..."
+mkdir -p server/public
+cp -r client/dist/* server/public/
+
 # Make sure server dependencies are installed
 cd server
 npm install

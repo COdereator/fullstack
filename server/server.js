@@ -12,7 +12,8 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -24,7 +25,22 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
 // Serve static files from the React app build directory
-app.use(express.static(path.join(__dirname, '../client/dist')));
+// Check for both possible locations of the client build
+const clientBuildPath = path.join(__dirname, '../client/dist');
+const serverPublicPath = path.join(__dirname, 'public');
+
+// First try the client/dist directory
+if (require('fs').existsSync(clientBuildPath)) {
+  console.log(`Serving static files from ${clientBuildPath}`);
+  app.use(express.static(clientBuildPath));
+} 
+// Then try the server/public directory
+else if (require('fs').existsSync(serverPublicPath)) {
+  console.log(`Serving static files from ${serverPublicPath}`);
+  app.use(express.static(serverPublicPath));
+} else {
+  console.log('No static files directory found');
+}
 
 // Add default products if none exist
 const Product = require('./models/Product');
@@ -87,7 +103,17 @@ addDefaultProducts();
 
 // The "catch-all" handler: for any request that doesn't match the ones above, send back the index.html file
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  // Try to find index.html in both possible locations
+  const clientIndexPath = path.join(__dirname, '../client/dist/index.html');
+  const serverIndexPath = path.join(__dirname, 'public/index.html');
+  
+  if (require('fs').existsSync(clientIndexPath)) {
+    res.sendFile(clientIndexPath);
+  } else if (require('fs').existsSync(serverIndexPath)) {
+    res.sendFile(serverIndexPath);
+  } else {
+    res.status(404).send('Application not properly deployed. Build files not found.');
+  }
 });
 
 const PORT = process.env.PORT || 5000;
