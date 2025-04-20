@@ -21,7 +21,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Link to="/" className="text-2xl font-bold text-indigo-600">SwapSpot</Link>
+              <Link to="/" className="text-2xl font-bold text-indigo-600">Exchange of Product</Link>
             </div>
             <div className="hidden md:ml-6 md:flex md:space-x-8">
               <NavLink
