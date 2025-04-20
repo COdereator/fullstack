@@ -35,7 +35,7 @@ const Hero = () => {
             <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
               <h1>
                 <span className="block text-base font-semibold text-indigo-600">
-                  Welcome to SwapSpot
+                  Welcome to Exchange of Product
                 </span>
                 <span className="mt-1 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
                   <span className="block text-gray-900">Trade Smarter</span>
